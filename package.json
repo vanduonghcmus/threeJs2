@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dat.gui": "^0.7.9",
+    "gsap": "^3.11.4",
     "parcel": "^2.8.2",
     "three": "^0.148.0"
   }

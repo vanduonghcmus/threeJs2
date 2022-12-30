@@ -1,19 +1,29 @@
 import * as THREE from "three";
+// import { CSS2DRenderer, CSS2DObject } from 'three/src/renderers/';
+
+import { CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer";
 
 const WINDOW_SIZE = 0.5;
 
-let w = 30 * WINDOW_SIZE;
-let l = 40 * WINDOW_SIZE;
-let h = 7 * WINDOW_SIZE;
+let w = 10;
+let l = 20;
+let h = 3;
 
-function drawBox(x, y, dx, dy) {
+let dx = -(w + h);
+let dy = -(h * 2 + l) / 2;
+
+function drawBox(x, y, dx, dy, material) {
+  const geometry = new THREE.BufferGeometry();
   const points = [];
-  points.push(new THREE.Vector2(dx, dy));
-  points.push(new THREE.Vector2(dx, y));
+  points.push(new THREE.Vector2(0, 0));
+  points.push(new THREE.Vector2(0, y));
   points.push(new THREE.Vector2(x, y));
-  points.push(new THREE.Vector2(x, dy));
-  points.push(new THREE.Vector2(dx, dy));
-  return points;
+  points.push(new THREE.Vector2(x, 0));
+  points.push(new THREE.Vector2(0, 0));
+  geometry.setFromPoints(points);
+  const line = new THREE.Line(geometry, material);
+  line.position.set(dx, dy, 0);
+  return line;
 }
 
 const renderer = new THREE.WebGLRenderer();
@@ -30,34 +40,28 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.position.set(0, 0, 100);
-camera.lookAt(0, -10, 0);
-
+camera.lookAt(0, 0, 0);
 const scene = new THREE.Scene();
-
+const group = new THREE.Group();
 const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-const box1 = drawBox(l, h, 0, 0);
-const box2 = drawBox(l, w + h, 0, h);
-const box3 = drawBox(l, w + h * 2, 0, w + h);
-const box4 = drawBox(l, (w + h) * 2, 0, w + h * 2);
-const box5 = drawBox(-h, w + h, 0, h);
-const box6 = drawBox(l + h, h + w, l, h);
+const materialLine = new THREE.LineBasicMaterial({
+  color: 0xffffff,
+  opacity: 0.1,
+});
 
-const geometry = new THREE.BufferGeometry();
+const box1 = drawBox(l, h, dx, dy, material);
+const box2 = drawBox(l, w + h, dx, h + dy, material);
+const box3 = drawBox(l, w + h * 2, dx, w + h + dy, material);
+const box4 = drawBox(h, w, -h + dx, h + dy, material);
+const box5 = drawBox(h, w, l + dx, h + dy, material);
+const box6 = drawBox(l, w + h * 2, dx, w + h * 2 + dy, material);
 
-geometry.setFromPoints(box1.concat(box2, box3, box4, box5, box6));
+group.add(box1);
+group.add(box2);
+group.add(box3);
+group.add(box4);
+group.add(box5);
+group.add(box6);
 
-geometry.rotateX(30);
-
-const line = new THREE.Line(geometry, material);
-
-line.position.set(-20, -30, 0);
-scene.add(line);
-let step = 0;
-let speed = 0.01;
-function animate() {
-  geometry.rotateX = step;
-  geometry.rotateY = step;
-  step+=speed
-  renderer.render(scene, camera);
-}
-renderer.setAnimationLoop(animate);
+scene.add(group);
+renderer.render(scene, camera);

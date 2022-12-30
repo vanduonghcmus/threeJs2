@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Three.js Survival</title>
-</head>
-<body>
-  
-  <!-- <script src="./js/scripts.js" type="module"></script> -->
-  <script src="./js/lineScript.js" type="module"></script>
-  <!-- <script src="./js/shape.js" type="module"></script> -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Three.js Survival</title>
+		<link rel="stylesheet" type="text/css" href="./css/base.css" />
 
-</body>
+  </head>
+  <body>
+    <div class="content">
+      <div class="page">
+        <div class="container">
+          <canvas id="box-canvas"></canvas>
+          <div class="ui-controls">
+            <button class="unbutton ui-controls__button" id="zoom-in" aria-label="Zoom in">+</button>
+            <button class="unbutton ui-controls__button" id="zoom-out" aria-label="Zoom out">-</button>
+            <div>Scroll to animate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="./js/scripts.js" type="module"></script> -->
+    <!-- <script src="./js/lineScript.js" type="module"></script> -->
+    <script src="./js/cardboard-box.js" type="module"></script>
+  </body>
 </html>
